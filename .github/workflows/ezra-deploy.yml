@@ -1,0 +1,14 @@
+name: Ezra Deployment Email
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send email from Ezra
+        run: echo "Ezra would email here. This confirms your Actions are running."

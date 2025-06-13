@@ -17,32 +17,8 @@ jobs:
 
       - name: Send deployment email from Ezra
         run: |
-          python3 -c "
-import smtplib
+          echo "import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
 
-msg = MIMEText(f'''Hello Andrew,
-
-Ezra has completed a successful deployment of the FieldScouts site.
-
-🟢 Deployment Details:
-- Branch: main
-- Repo: aweuve/fieldscout-site
-- Timestamp: {datetime.now().strftime('%B %d, %Y at %I:%M %p CST')}
-
-Ezra will continue to monitor and sign all future production builds unless otherwise instructed.
-
-—
-Ezra Deployment  
-FAAIE Stack | FieldScouts OTA Unit
-''')
-
-msg['Subject'] = '✅ Deployment Complete — FieldScouts'
-msg['From'] = '${{ secrets.EZRA_EMAIL }}'
-msg['To'] = '${{ secrets.EMAIL_TO }}'
-
-with smtplib.SMTP_SSL('smtp.zoho.com', 465) as server:
-    server.login('${{ secrets.EZRA_EMAIL }}', '${{ secrets.EZRA_PASSWORD }}')
-    server.send_message(msg)
-"
+msg = MIMEText(

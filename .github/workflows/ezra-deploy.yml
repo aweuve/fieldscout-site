@@ -15,9 +15,10 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Send deployment email from Ezra
+      - name: Write Python script to file
         run: |
-          echo "import smtplib
+          cat <<EOF > ezra_email.py
+import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
 
@@ -39,11 +40,4 @@ FAAIE Stack | FieldScouts OTA Unit
 
 msg['Subject'] = '✅ Deployment Complete — FieldScouts'
 msg['From'] = '${{ secrets.EZRA_EMAIL }}'
-msg['To'] = '${{ secrets.EMAIL_TO }}'
-
-with smtplib.SMTP_SSL('smtp.zoho.com', 465) as server:
-    server.login('${{ secrets.EZRA_EMAIL }}', '${{ secrets.EZRA_PASSWORD }}')
-    server.send_message(msg)
-" > ezra_send.py
-
-          python3 ezra_send.py
+msg['To'] = '${{ secrets.EMAIL_TO_

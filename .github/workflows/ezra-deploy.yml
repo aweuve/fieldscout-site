@@ -1,25 +1,20 @@
-name: Ezra Deployment Email
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  send-email:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Write Ezra's email script
+      - name: Write Ezra's email script with debug
         run: |
           echo "import smtplib" > ezra_send.py
           echo "from email.mime.text import MIMEText" >> ezra_send.py
           echo "from datetime import datetime" >> ezra_send.py
-          echo "" >> ezra_send.py
-          echo "msg = MIMEText(f'''Hello Andrew,\n\nEzra has completed a successful deployment of the FieldScouts site.\n\n🟢 Deployment Details:\n- Branch: main\n- Repo: aweuve/fieldscout-site\n- Timestamp: {datetime.now().strftime('%B %d, %Y at %I:%M %p CST')}\n\nEzra will continue to monitor and sign all future production builds unless otherwise instructed.\n\n—\nEzra Deployment\nFAAIE Stack | FieldScouts OTA Unit\n''')" >> ezra_send.py
-          echo "msg['Subject'] = '✅ Deployment Complete — FieldScouts'"
+          echo "import sys" >> ezra_send.py
+          echo "print('📦 Ezra is preparing to send...')" >> ezra_send.py
+          echo "try:" >> ezra_send.py
+          echo "    msg = MIMEText(f'''Hello Andrew,\\n\\nEzra has completed a deployment.\\n\\n🟢 Timestamp: {datetime.now().strftime('%B %d, %Y at %I:%M %p CST')}\\n\\n— Ezra''')" >> ezra_send.py
+          echo "    msg['Subject'] = '✅ Deployment Complete — FieldScouts'" >> ezra_send.py
+          echo "    msg['From'] = '${{ secrets.EZRA_EMAIL }}'" >> ezra_send.py
+          echo "    msg['To'] = '${{ secrets.EMAIL_TO }}'" >> ezra_send.py
+          echo "    with smtplib.SMTP_SSL('smtp.zoho.com', 465) as server:" >> ezra_send.py
+          echo "        print('🔐 Logging in...')" >> ezra_send.py
+          echo "        server.login('${{ secrets.EZRA_EMAIL }}', '${{ secrets.EZRA_PASSWORD }}')" >> ezra_send.py
+          echo "        print('📤 Sending message...')" >> ezra_send.py
+          echo "        server.send_message(msg)" >> ezra_send.py
+          echo "    print('✅ Email sent.')" >> ezra_send.py
+          echo "except Exception as e:" >> ezra_send.py
+          echo "    print(f'❌ Error sending email: {e}', file=sys.stderr)" >> ezra_send.py

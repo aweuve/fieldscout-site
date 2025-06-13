@@ -1,4 +1,3 @@
-
 name: Ezra Deployment Email
 
 on:
@@ -11,8 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-              - name: Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
+      - name: Write Ezra's email scr
